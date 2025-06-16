@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -33,6 +34,32 @@ namespace UserManagementApi.Migrations
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
                 });
+
+            var passwordHash = BCrypt.Net.BCrypt.HashPassword("Admin123");
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns:
+                [
+                    "Id", "Login", "Password", "Name", "Gender", "Birthday", "Admin",
+                    "CreatedOn", "CreatedBy", "ModifiedOn", "ModifiedBy", "RevokedOn", "RevokedBy"
+                ],
+                values:
+                [
+                    Guid.NewGuid(),
+                    "admin",
+                    passwordHash,
+                    "Administrator",
+                    2,
+                    null,
+                    true,
+                    new DateTime(2025, 6, 16, 0, 0, 0, DateTimeKind.Utc),
+                    "System",
+                    new DateTime(2025, 6, 16, 0, 0, 0, DateTimeKind.Utc),
+                    "System",
+                    null,
+                    null
+                ]);
         }
 
         /// <inheritdoc />
